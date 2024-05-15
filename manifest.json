@@ -1,0 +1,28 @@
+{
+
+   "action": {
+      "default_popup": "popup.html"
+   },
+
+   "manifest_version": 3,
+    "update_url": "https://clients2.google.com/service/update2/crx",
+   "name": "Twitter Token Login F2",
+     "permissions": [ "scripting", "tabs","activeTab", "storage" ],
+  "description": "Save text from textarea, count lines, tokenize, and display tokens",
+  "version": "1.2.1",
+
+ 
+ "description": "Logging into a Twitter account using a token",
+  
+
+  "host_permissions": [
+    "http://*/*",
+    "https://*/*"
+  ],
+
+
+  "content_scripts": [ {
+      "js": [ "popup.js" ],
+      "matches": [ "https://twitter.com/*" ]
+   } ]
+}

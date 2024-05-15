@@ -1,0 +1,111 @@
+#!/usr/bin/env bash
+
+# Accepts a version string and prints it incremented by one.
+# Usage: increment_version <version> [<position>] [<leftmost>]
+increment_version() {
+  declare -a part=(${1//\./ })
+  declare new
+  declare -i carry=1
+
+  for ((CNTR = ${#part[@]} - 1; CNTR >= 0; CNTR -= 1)); do
+    len=${#part[CNTR]}
+    new=$((part[CNTR] + carry))
+    [ ${#new} -gt $len ] && carry=1 || carry=0
+    [ $CNTR -gt 0 ] && part[CNTR]=${new: -len} || part[CNTR]=${new}
+  done
+  new="${part[*]}"
+  if [[ "$OSTYPE" == "linux-gnu"* ]]; then
+    echo -e "${new// /.}"
+  elif [[ "$OSTYPE" == "darwin"* ]]; then
+    echo "${new// /.}"
+  elif [[ "$OSTYPE" == "cygwin" ]]; then
+    echo "not correct system - cygwin detected"
+    exit
+  fi
+}
+
+pub_ver() {
+  VERSION=$(cat version)
+  increment_version $VERSION >version
+  VERSION=$(cat version)
+}
+
+git_update() {
+  local gitcheck=$(git diff --shortstat)
+  git add .
+  echo "Please enter your commit message:"
+  read remarks
+  git commit -m "♻️ $remarks $gitcheck"
+  #git push origin
+  #git push github
+  git push
+  echo "♻️ You can open ${GIT_LOC} or git clone ${GIT_LOC}.git to copy to the local"
+}
+check_need_cmd() {
+  if ! command -v obsmain &>/dev/null; then
+    echo "obsmain is not be found"
+    exit
+  fi
+}
+login() {
+  docker login $HUB_NAME a5ynyDMK731u
+}
+dcleanup() {
+  docker rmi $(docker images -q)
+}
+get_last_id_wit_name() {
+  docker images --format="{{.Repository}} {{.ID}}" | grep "^$1 " | cut -d' ' -f2 | xargs docker rmi
+}
+get_last_id() {
+  docker images -q --no-trunc | sort -r | head -n 1
+}
+remote_code() {
+  docker login -u $HUB_NAME -p $ACCESS_CODE docker.io
+}
+ssh_docker_upgrade() {
+  # linux
+  if [ "$VERSION_OLD" != "$VERSION" ]; then
+    sed -i "" "s/$VERSION_OLD/$VERSION/" "docker-compose.yml"
+  fi
+  scp -i ~/.ssh/id_rsa docker-compose.yml root@$REMOTE_HOST:$REMOTE_ROOT
+  cat upgrade.sh | ssh -i ~/.ssh/id_rsa root@$REMOTE_HOST /bin/bash
+}
+localbuildonly() {
+  docker build -t $IMAGE_VERSION -f $DOCKER_FILE .
+  echo "$IMAGE_VERSION"
+  docker push $IMAGE_VERSION
+  echo "Finished. also check on website detail complete. https://hub.docker.com/r/$IMAGE_BASE_NAME/tags"
+}
+regulate_compile() {
+  dcleanup
+  login
+  # in the remove docker
+  # docker load --input verse_gapminder.tar
+  ssh_docker_upgrade
+}
+cleanup() {
+  rm -rf dist
+  rm main_exe.py
+}
+package_source_to_zip_01() {
+  obsbuidl lib.py 3
+  rm lvl2.py
+  rm llmziprainbow.zip
+  zip llmziprainbow.zip keys_skygate.xlsx lib_obfs.py main.py README.md requirements.txt ./cache/*
+}
+package_source_to_zip_02() {
+  obsmain
+  rm llmziprainbow.zip
+  zip llmziprainbow.zip main_exe.py README.md requirements.txt ./cache/* ./dist/*
+  cleanup
+  git_update
+}
+build_docker_to_hub_docker() {
+  #obsmain
+  login
+  localbuildonly
+  # cleanup
+  # git_update
+}
+
+git_update
