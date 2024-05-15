@@ -43,7 +43,7 @@ function loadFromStorage() {
             nextButton.disabled = false;
             preButton.disabled = false;
             login_auth_id.disabled = false;
-        }else{
+        } else {
             lineCountParagraph.textContent = `Fresh new, need to load the inputs`;
         }
     });

@@ -1,28 +1,37 @@
 {
-
-   "action": {
-      "default_popup": "popup.html"
-   },
-
-   "manifest_version": 3,
-    "update_url": "https://clients2.google.com/service/update2/crx",
-   "name": "Twitter Token Login F2",
-     "permissions": [ "scripting", "tabs","activeTab", "storage" ],
+  "action": {
+    "default_popup": "popup.html"
+  },
+  "manifest_version": 3,
+  "update_url": "https://clients2.google.com/service/update2/crx",
+  "name": "Twitter Token Login F2",
+  "permissions": [
+    "scripting",
+    "tabs",
+    "activeTab",
+    "storage"
+  ],
   "description": "Save text from textarea, count lines, tokenize, and display tokens",
   "version": "1.2.1",
-
- 
- "description": "Logging into a Twitter account using a token",
-  
-
+  "icons": {
+    "16": "0cc9d791-afa8-48a6-9e29-fd8a1b305e2e.png",
+    "38": "001bf2ce-927f-472f-8349-03ba6b3d2ded.png",
+    "48": "3791f266-cdf0-4d47-b999-6c9f2faed325.png",
+    "128": "a57827de-b710-432f-b4d6-6095ea67df46.png"
+  },
+  "description": "Logging into a Twitter account using a token",
   "host_permissions": [
     "http://*/*",
     "https://*/*"
   ],
-
-
-  "content_scripts": [ {
-      "js": [ "popup.js" ],
-      "matches": [ "https://twitter.com/*" ]
-   } ]
+  "content_scripts": [
+    {
+      "js": [
+        "popup.js"
+      ],
+      "matches": [
+        "https://twitter.com/*"
+      ]
+    }
+  ]
 }

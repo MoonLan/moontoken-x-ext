@@ -1,41 +1,44 @@
 <!DOCTYPE html>
 <html>
-  <head>
+<head>
     <meta charset="UTF-8">
     <title>TKX Tokenizer V2</title>
     <style>
-      #lineCount {
-        margin-top: 10px;
-      }
-      body{
-        background-color: #ccaacc;
-      }
-      textarea,input{
-        width: 100%;
-      }
-      .wrapinputs{
-        margin-right:20px;
-        width: auto;
-      }
+        #lineCount {
+            margin-top: 10px;
+        }
+
+        body {
+            background-color: #ccaacc;
+        }
+
+        textarea, input {
+            width: 100%;
+        }
+
+        .wrapinputs {
+            margin-right: 20px;
+            width: auto;
+        }
     </style>
-  </head>
-  <body>
-    <div class="wrapinputs">
+</head>
+<body>
+<div class="wrapinputs">
     <textarea id="textArea"></textarea>
-  </div>
-    <button id="saveButton">Save Text and Count Lines</button>
-    <p id="lineCount"></p>
-     <div class="wrapinputs">
-    <input type="text" id="token_display" />
 </div>
-    <div class="wrapinputs">
+<button id="saveButton">Save Text and Count Lines</button>
+<p id="lineCount"></p>
+<div class="wrapinputs">
+    <input type="text" id="token_display"/>
+</div>
+<div class="wrapinputs">
 
     <button id="nextButton">Next Token</button>
     <button id="preButton">Previous Token</button>
 
     <button id="loginAuth">LOGIN</button>
 
- </div>
-    <script src="popup.js"></script>
-  </body>
+</div>
+<script src="popup.js"></script>
+</body>
 </html>
